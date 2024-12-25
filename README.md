@@ -43,8 +43,8 @@ These are the assumptions:
 2) Redis uses default configurations for caching.
 3) A static token is used for authentication. Replace this with a more secure mechanism in production.
 
-   Enhancements
-1) Add support for more scraping settings.
-2) Integrate a database (e.g., PostgreSQL, MongoDB) for data storage.
-3) Implement advanced authentication mechanisms.
-4) Enable notifications via email or other messaging platforms
+Enhancements
+   a) Add support for more scraping settings.
+   b) Integrate a database (e.g., PostgreSQL, MongoDB) for data storage.
+   c) Implement advanced authentication mechanisms.
+   d) Enable notifications via email or other messaging platforms
