@@ -5,8 +5,8 @@ A web scrapper written using FAST API for Dentalstall
 This project is a web scraping tool built using the FastAPI framework. It automates scraping product information (name, price, and image) from a target website and provides an API to manage and trigger the scraping tasks.
 
 Features
-Web Scraping
-
+**Web Scraping
+**
 Scrapes product names, prices, and images from a target website.
 Supports limiting the number of pages to scrape.
 Optionally uses a proxy for scraping requests.
