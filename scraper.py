@@ -28,13 +28,13 @@ class WebScraper:
             self.cache.set(cache_key, page_products, ttl=3600)
             products.extend(page_products)
 
-            # Simulate delay to avoid getting blocked
-            sleep(2)
-
         self._store_to_db(products)
         return products
 
     def _fetch_page(self, url: str):
+        """
+        I have taken 3 retries, with a time difference of 5 seconds between each 
+        """
         retry_attempts = 3
         for attempt in range(retry_attempts):
             try:
@@ -48,19 +48,30 @@ class WebScraper:
         return None
 
     def _parse_page(self, html: str) -> List[Dict]:
-        soup = BeautifulSoup(html, "html.parser")
-        products = []
+    soup = BeautifulSoup(html, "html.parser")
+    products = []
 
-        for product in soup.select(".product-card"):  # Assuming products are listed with a .product-card class
-            title = product.select_one(".product-title").get_text(strip=True) if product.select_one(".product-title") else "Unknown"
-            price = product.select_one(".product-price").get_text(strip=True) if product.select_one(".product-price") else "0"
-            image_url = product.select_one("img")["src"] if product.select_one("img") else ""
+    # Update selector based on actual class names
+    for product in soup.select("li.product"):  # Assuming product container is 'li' with class 'product'
+        title = (
+            product.select_one("h2.woocommerce-loop-product__title").get_text(strip=True)
+            if product.select_one("h2.woocommerce-loop-product__title") else "Unknown"
+        )
+        price = (
+            product.select_one("span.woocommerce-Price-amount").get_text(strip=True)
+            if product.select_one("span.woocommerce-Price-amount") else "0"
+        )
+        image_tag = product.select_one("img")
+        image_url = image_tag["src"] if image_tag else ""
 
-            products.append({
-                "product_title": title,
-                "product_price": price,
-                "image_url": image_url
-            })
+        products.append({
+            "product_title": title,
+            "product_price": price,
+            "image_url": image_url
+        })
+
+    return products
+
 
         return products
 
